@@ -1,28 +1,80 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import Notecard from './components/notecard';
+import CreateCardArea from './components/createCardArea';
+import Navbar from './components/navbar';
 
 const App = () => {
+  const [flashcards, setFlashcards] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5001/flashcards')
+      .then(res => {
+        setFlashcards(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  const updateFlashcard = (id, updatedFront, updatedBack) => {
+    axios.patch(`http://localhost:5001/flashcards/${id}`, {
+      front: updatedFront,
+      back: updatedBack
+    })
+      .then(res => {
+        console.log(res.data);
+        const updatedFlashcards = flashcards.map(flashcard => 
+          flashcard._id === id ? 
+        { front: updatedFront, back: updatedBack } 
+        : flashcard
+      );
+      setFlashcards(updatedFlashcards);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  const deleteFlashcard = (id) => {
+    axios.delete(`http://localhost:5001/flashcards/${id}`)
+      .then(res => {
+        console.log(res.data);
+        setFlashcards(flashcards.filter(flashcard => flashcard._id !== id));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
     <div className='text-center'>
-      <h1 className='bg-purple-400 text-white w-screen text-4xl font-medium py-4 mx-auto text-center'>
-      ✨ Flashcardify ✨
-      </h1>
-      <form className='grid grid-flow-col rounded-lg shadow-md content-center'>
-        <textarea type='text' className='col-span-4 border-2 border-gray-300 ml-20 my-4 p-2' placeholder='Enter a question' />
-        <textarea type='text' className='col-span-4 border-2 border-gray-300 mx-4 my-4 p-2' placeholder='Enter an answer' />
-        <button className='col-span-1 bg-purple-400 text-white text-bold text-xl w-1/3 my-4 mx-4 rounded-full'> + </button>
-      </form>
-      <div className='grid grid-cols-4 gap-4 py-2'>
-        <Notecard front='What is the capital of France?' back='Paris' />
-        <Notecard front='What is the capital of Italy?' back='Rome' />
+      <Navbar />
+      <CreateCardArea 
+        onAdd={(newFlashcard) => setFlashcards( (prevCards) => {
+          return [...prevCards, newFlashcard]
+        })}
+      /> 
+      <div>
+        {
+          flashcards && flashcards.map(flashcard => {
+            console.log(flashcard.front);
+            console.log(flashcard.back);
+            return (
+              <Notecard 
+                key={flashcard._id}
+                id={flashcard._id}
+                front={flashcard.front}
+                back={flashcard.back}
+                updateFlashcard={updateFlashcard}
+                deleteFlashcard={() => deleteFlashcard(flashcard._id)}
+              />
+            );
+          })
+        }
       </div>
-      
     </div>
   );
 }
 
-// give me tailwind css for the question textarea, answer textarea, nad button
-// give me a form with a question textarea, answer textarea, and a button
-// give me a div with a header
-// give me a div with a form
 export default App;
