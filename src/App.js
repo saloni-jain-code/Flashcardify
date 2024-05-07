@@ -3,9 +3,11 @@ import axios from 'axios';
 import Notecard from './components/notecard';
 import CreateCardArea from './components/createCardArea';
 import Navbar from './components/navbar';
+import Practice from './components/practice';
 
 const App = () => {
   const [flashcards, setFlashcards] = useState([]);
+  const [practiceMode, setPracticeMode] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:5001/flashcards')
@@ -49,30 +51,40 @@ const App = () => {
 
   return (
     <div className='text-center'>
-      <Navbar />
-      <CreateCardArea 
-        onAdd={(newFlashcard) => setFlashcards( (prevCards) => {
-          return [...prevCards, newFlashcard]
-        })}
-      /> 
-      <div>
-        {
-          flashcards && flashcards.map(flashcard => {
-            console.log(flashcard.front);
-            console.log(flashcard.back);
-            return (
-              <Notecard 
-                key={flashcard._id}
-                id={flashcard._id}
-                front={flashcard.front}
-                back={flashcard.back}
-                updateFlashcard={updateFlashcard}
-                deleteFlashcard={() => deleteFlashcard(flashcard._id)}
-              />
-            );
-          })
-        }
-      </div>
+      <Navbar 
+        practiceMode={practiceMode}
+        setPracticeMode={setPracticeMode}
+      />
+      {practiceMode ? 
+        (<Practice 
+          flashcards={flashcards}
+        /> ) 
+      : (
+        <div>
+          <CreateCardArea 
+            onAdd={(newFlashcard) => setFlashcards( (prevCards) => {
+              return [...prevCards, newFlashcard]
+            })}
+          /> 
+          <div>
+            {
+              flashcards && flashcards.map(flashcard => {
+                return (
+                  <Notecard 
+                    key={flashcard._id}
+                    id={flashcard._id}
+                    front={flashcard.front}
+                    back={flashcard.back}
+                    updateFlashcard={updateFlashcard}
+                    deleteFlashcard={() => deleteFlashcard(flashcard._id)}
+                  />
+                );
+              })
+            }
+          </div> 
+        </div>
+        )
+    }
     </div>
   );
 }
