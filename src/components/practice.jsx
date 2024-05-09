@@ -27,6 +27,16 @@ const Practice = (props) => {
         setIsFlipped(false);
     }
 
+    function previousCard(){
+        // go to the previous
+        if (flashcardIndex > 0) {
+            setFlashcardIndex(flashcardIndex - 1);
+        } else { // if we are at the beginning of the flashcards, go to the end
+            setFlashcardIndex(props.flashcards.length - 1);
+        }
+        setIsFlipped(false);
+    }
+
     function increaseCorrect() {
         setCorrect(correct + 1);
         setScore(correct / (props.flashcards.length) * 100);
@@ -73,6 +83,7 @@ const Practice = (props) => {
                 Next
             </button>
             <button 
+                onClick={previousCard}
                 className='py-1 my-2 px-3 bg-blue-400 text-xl text-white rounded-lg mx-2'>
                 Previous
             </button>

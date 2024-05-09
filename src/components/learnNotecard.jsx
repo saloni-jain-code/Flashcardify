@@ -11,7 +11,7 @@ const LearnNotecard = (props) => {
                 </div>
             ) : (
                 <div>
-                    <h1 className = 'text-blue-600 font-bold flex justify-center items-center py-10 text-xl font-bold'>{props.front}</h1>
+                    <h1 className = 'text-blue-600 flex justify-center items-center py-10 text-xl font-bold'>{props.front}</h1>
                 </div>
             )}
             <button>
