@@ -10,7 +10,7 @@ const App = () => {
   const [practiceMode, setPracticeMode] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:5001/flashcards')
+    axios.get('https://flashcardify-final-backend.vercel.app/flashcards')
       .then(res => {
         setFlashcards(res.data);
       })
@@ -20,7 +20,7 @@ const App = () => {
   });
 
   const updateFlashcard = (id, updatedFront, updatedBack) => {
-    axios.patch(`http://localhost:5001/flashcards/${id}`, {
+    axios.patch(`https://flashcardify-final-backend.vercel.app/flashcards/${id}`, {
       front: updatedFront,
       back: updatedBack
     })
@@ -39,7 +39,7 @@ const App = () => {
   }
 
   const deleteFlashcard = (id) => {
-    axios.delete(`http://localhost:5001/flashcards/${id}`)
+    axios.delete(`https://flashcardify-final-backend.vercel.app/flashcards/${id}`)
       .then(res => {
         console.log(res.data);
         setFlashcards(flashcards.filter(flashcard => flashcard._id !== id));

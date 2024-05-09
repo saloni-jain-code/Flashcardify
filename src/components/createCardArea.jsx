@@ -8,7 +8,7 @@ const CreateCardArea = (props) => {
     const addFlashcard = (e) => {
         e.preventDefault();
         console.log(front, back)
-        axios.post('http://localhost:5001/flashcards', {
+        axios.post('https://flashcardify-final-backend.vercel.app/flashcards', {
           front: front,
           back: back
         })
