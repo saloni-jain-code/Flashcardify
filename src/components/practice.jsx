@@ -41,7 +41,12 @@ const Practice = (props) => {
 
     const currentFlashcard = props.flashcards[flashcardIndex];
     if (!currentFlashcard) {
-        return <div>Error: Flashcard not found</div>;
+        return (
+        <div>
+            <h1 className="text-4xl font-bold text-blue-600 py-3">Practice Mode</h1>
+            <h1 className="text-4xl py-5">Add some flashcards to practice!</h1>
+        </div>
+        );
     }
 
     return (
@@ -53,7 +58,7 @@ const Practice = (props) => {
                 <h1 className="text-2xl font-bold text-red-600 py-3">Incorrect: {incorrect}</h1>
             </div>
             <div className="rounded-lg shadow-md bg-blue-100 mx-40 my-2 py-40">
-                <h1 className = 'text-blue-400 border-r-2 border-blue-200 text-2xl'>
+                <h1 className = 'text-blue-600 border-r-2 border-blue-200 text-2xl'>
                     {isFlipped ? props.flashcards[flashcardIndex].back : props.flashcards[flashcardIndex].front}
                 </h1>
             </div>

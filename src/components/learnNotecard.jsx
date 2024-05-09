@@ -7,11 +7,11 @@ const LearnNotecard = (props) => {
     <div className="border-2 mx-2 px-5 py-2 w-full my-10 bg-blue-100">
             {isFlipped ? (
                 <div>
-                    <h1 className = 'text-blue-400 flex justify-center items-center py-10 text-xl'>{props.back}</h1>
+                    <h1 className = 'text-blue-600  flex justify-center items-center py-10 text-xl'>{props.back}</h1>
                 </div>
             ) : (
                 <div>
-                    <h1 className = 'text-blue-400 flex justify-center items-center py-10 text-xl font-bold'>{props.front}</h1>
+                    <h1 className = 'text-blue-600 font-bold flex justify-center items-center py-10 text-xl font-bold'>{props.front}</h1>
                 </div>
             )}
             <button>
